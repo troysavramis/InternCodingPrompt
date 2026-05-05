@@ -1,10 +1,18 @@
 
+## Step 2 (Modernizing with uv) documentation 
+
+# Input
 uv sync
 uv add fastapi
 uv remove flask
+uv run python app.py
+> Forgot to install uvicorn ^^'
 uv add uvicorn
-uv run python.app
+uv run python app.py
+> Had to change the port from 5000 to 8000
+uv run python app.py
 
+# Output
 troysavramis@MacBookPro InternCodingPrompt % uv sync
 Using CPython 3.12.4 interpreter at: /Library/Frameworks/Python.framework/Versions/3.12/bin/python3
 Creating virtual environment at: .venv
@@ -62,8 +70,13 @@ Installed 3 packages in 11ms
 troysavramis@MacBookPro InternCodingPrompt % uv run python app.py
 INFO:     Will watch for changes in these directories: ['/Users/troysavramis/git/InternCodingPrompt']
 ERROR:    [Errno 48] Address already in use
-troysavramis@MacBookPro InternCodingPrompt % 
-
+troysavramis@MacBookPro InternCodingPrompt % uv run python app.py
+INFO:     Will watch for changes in these directories: ['/Users/troysavramis/git/InternCodingPrompt']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [15401] using StatReload
+INFO:     Started server process [15405]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
 
 
 
