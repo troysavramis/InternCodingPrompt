@@ -30,13 +30,13 @@ class TaskUpdate(BaseModel):
     description: Optional[str] = None
     completed: Optional[bool] = None
 
-
+# CRUD: Read all
 async def get_tasks():
     """Read: Get all tasks"""
     # return jsonify(list(tasks.values())), 200
     return list(tasks.values())
 
-
+# CRUD: Read one
 async def get_task(task_id):
     """Read: Get a specific task by ID"""
     task = tasks.get(task_id)
@@ -46,7 +46,7 @@ async def get_task(task_id):
     # return jsonify({"error": "Task not found"}), 404
     raise HTTPException(status_code=404, detail="Task not found")
 
-
+# CRUD: Create
 async def create_task(task_data: TaskCreate):
     """Create: Create a new task"""
     # data = request.get_json(silent=True)
@@ -69,7 +69,7 @@ async def create_task(task_data: TaskCreate):
     # return jsonify(task), 201
     return task
 
-
+# CRUD: Update
 async def update_task(task_id, task_data: TaskUpdate):
     """Update: Update an existing task"""
     task = tasks.get(task_id)
@@ -98,7 +98,7 @@ async def update_task(task_id, task_data: TaskUpdate):
     # return jsonify(task), 200
     return task
 
-
+# CRUD: Delete
 async def delete_task(task_id):
     """Delete: Delete a task"""
     # task = tasks.get(task_id)

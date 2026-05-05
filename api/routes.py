@@ -25,10 +25,19 @@ class Task(BaseModel):
 # tasks_bp.add_url_rule('/tasks/<task_id>', view_func=update_task, methods=['PUT'])
 # tasks_bp.add_url_rule('/tasks/<task_id>', view_func=delete_task, methods=['DELETE'])
 # tasks_bp.add_url_rule('/health', view_func=health, methods=['GET'])
+
+# CRUD: Create (POST)
+tasks_router.add_api_route('/tasks', endpoint=create_task, methods=['POST'])
+
+# CRUD: Read all and read one (GET)
 tasks_router.add_api_route('/tasks', endpoint=get_tasks, methods=['GET'])
 tasks_router.add_api_route('/tasks/{task_id}', endpoint=get_task, methods=['GET'])
-tasks_router.add_api_route('/tasks', endpoint=create_task, methods=['POST'])
+
+# CRUD: Update (PUT)
 tasks_router.add_api_route('/tasks/{task_id}', endpoint=update_task, methods=['PUT'])
+
+# CRUD: Delete (DELETE)
 tasks_router.add_api_route('/tasks/{task_id}', endpoint=delete_task, methods=['DELETE'])
+
+# Health check
 tasks_router.add_api_route('/health', endpoint=health, methods=['GET'])
-# TODO: Consider replacing with decorators
