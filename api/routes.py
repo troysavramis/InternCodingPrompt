@@ -31,3 +31,4 @@ tasks_router.add_api_route('/tasks', endpoint=create_task, methods=['POST'])
 tasks_router.add_api_route('/tasks/{task_id}', endpoint=update_task, methods=['PUT'])
 tasks_router.add_api_route('/tasks/{task_id}', endpoint=delete_task, methods=['DELETE'])
 tasks_router.add_api_route('/health', endpoint=health, methods=['GET'])
+# TODO: Consider replacing with decorators

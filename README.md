@@ -1,3 +1,73 @@
+
+uv sync
+uv add fastapi
+uv remove flask
+uv add uvicorn
+uv run python.app
+
+troysavramis@MacBookPro InternCodingPrompt % uv sync
+Using CPython 3.12.4 interpreter at: /Library/Frameworks/Python.framework/Versions/3.12/bin/python3
+Creating virtual environment at: .venv
+Resolved 14 packages in 2ms
+Prepared 12 packages in 695ms
+Installed 12 packages in 40ms
+ + blinker==1.9.0
+ + click==8.3.3
+ + flask==3.0.0
+ + iniconfig==2.3.0
+ + itsdangerous==2.2.0
+ + jinja2==3.1.6
+ + markupsafe==3.0.3
+ + packaging==26.2
+ + pluggy==1.6.0
+ + pygments==2.20.0
+ + pytest==9.0.3
+ + werkzeug==3.1.8
+troysavramis@MacBookPro InternCodingPrompt % uv add fastapi
+Resolved 24 packages in 1.16s
+Prepared 10 packages in 387ms
+Installed 10 packages in 35ms
+ + annotated-doc==0.0.4
+ + annotated-types==0.7.0
+ + anyio==4.13.0
+ + fastapi==0.136.1
+ + idna==3.13
+ + pydantic==2.13.3
+ + pydantic-core==2.46.3
+ + starlette==1.0.0
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+troysavramis@MacBookPro InternCodingPrompt % uv remove flask
+Resolved 17 packages in 44ms
+Uninstalled 7 packages in 30ms
+ - blinker==1.9.0
+ - click==8.3.3
+ - flask==3.0.0
+ - itsdangerous==2.2.0
+ - jinja2==3.1.6
+ - markupsafe==3.0.3
+ - werkzeug==3.1.8
+troysavramis@MacBookPro InternCodingPrompt % uv run python app.py
+Traceback (most recent call last):
+  File "/Users/troysavramis/git/InternCodingPrompt/app.py", line 2, in <module>
+    import uvicorn
+ModuleNotFoundError: No module named 'uvicorn'
+troysavramis@MacBookPro InternCodingPrompt % uv add uvicorn
+Resolved 20 packages in 337ms
+Prepared 2 packages in 174ms
+Installed 3 packages in 11ms
+ + click==8.3.3
+ + h11==0.16.0
+ + uvicorn==0.46.0
+troysavramis@MacBookPro InternCodingPrompt % uv run python app.py
+INFO:     Will watch for changes in these directories: ['/Users/troysavramis/git/InternCodingPrompt']
+ERROR:    [Errno 48] Address already in use
+troysavramis@MacBookPro InternCodingPrompt % 
+
+
+
+
+
 # Intern Coding Prompt: Flask to FastAPI Migration
 
 ## Overview
