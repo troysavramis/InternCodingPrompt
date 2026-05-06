@@ -4,7 +4,13 @@ from fastapi.testclient import TestClient
 
 from api.routes import tasks_router
 
-app = FastAPI()
+app = FastAPI(
+    title="InternCodingPrompt",
+    description="FastAPI migrated from Flask",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+)
 app.include_router(tasks_router)
 app.config = {}
 
