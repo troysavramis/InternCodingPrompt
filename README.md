@@ -1,3 +1,48 @@
+## Running the application
+
+1. Use uv sync to install dependencies from `pyproject.toml`:
+```bash
+uv sync --dev
+```
+
+2. Start the FastAPI application locally:
+```bash
+uv run uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+3. Open the app in your browser or API client:
+- API root: `http://localhost:8000`
+- OpenAPI Documentation:
+`http://localhost:8000/docs`
+`http://localhost:8000/redoc`
+`http://localhost:8000/openapi.json`
+
+4. Using the API/testing endpoints using `curl` and bash
+```bash
+# Create a task
+curl -X POST http://localhost:8000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Complete migration", "description": "Migrate Flask to FastAPI"}'
+
+# Get all tasks
+curl http://localhost:8000/tasks
+
+# Get a specific task
+curl http://localhost:8000/tasks/{task_id}
+
+# Update a task
+curl -X PUT http://localhost:8000/tasks/{task_id} \
+  -H "Content-Type: application/json" \
+  -d '{"completed": true}'
+
+# Delete a task
+curl -X DELETE http://localhost:8000/tasks/{task_id}
+
+# Health check
+curl http://localhost:8000/health
+```
+
+
 
 ## Step 2 (Modernizing with uv) documentation 
 
@@ -6,7 +51,7 @@ uv sync
 uv add fastapi
 uv remove flask
 uv run python app.py
-> Forgot to install uvicorn ^^'
+> Forgot to install uvicorn                                        
 uv add uvicorn
 uv run python app.py
 > Had to change the port from 5000 to 8000
