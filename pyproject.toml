@@ -12,6 +12,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest",
+    "coverage",
 ]
 
 [tool.setuptools.package-dir]
