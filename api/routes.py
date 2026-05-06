@@ -1,51 +1,80 @@
-from typing import Optional
-from fastapi import APIRouter
-from pydantic import BaseModel
-from api.controllers import get_tasks, get_task, create_task, update_task, delete_task, health
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse
+from api.controllers import get_tasks, get_task, create_task, update_task, delete_task, health, Task as TaskModel
 
 tasks_router = APIRouter()
 
-# Pydantic model (data validation)
-class Task(BaseModel):
-    id: str
-    title: str
-    description: str
-    completed: bool
-    created_at: str
-    updated_at: Optional[str] = None
+# Helper function to handle FastAPI ==> Flask test suite backwards compatibility
+def error_response(message: str, status_code: int = 400):
+    return JSONResponse({"error": message}, status_code=status_code)
+
 
 ### Define routes
 
 # CRUD: Create (POST)
-# tasks_router.add_api_route('/tasks', endpoint=create_task, methods=['POST'])
-@tasks_router.post('/tasks', response_model=Task)
-async def create_task(task_data: Task):
-    return await create_task(task_data)
+@tasks_router.post('/tasks', response_model=TaskModel, status_code=201)
+async def create_task_endpoint(request: Request):
+    try:
+        payload = await request.json()
+    except Exception:
+        return error_response('Invalid JSON body', 400)
+
+    if not isinstance(payload, dict) or not payload:
+        return error_response('Request body must be a JSON object', 400)
+
+    title = payload.get('title')
+    if not title:
+        return error_response('Title is required', 400)
+
+    description = payload.get('description', '')
+
+    task = await create_task({'title': title, 'description': description})
+    return JSONResponse(task, status_code=201)
+
 
 # CRUD: Read all and read one (GET)
-# tasks_router.add_api_route('/tasks', endpoint=get_tasks, methods=['GET'])
-@tasks_router.get('/tasks/{task_id}', response_model=Task)
-async def read_task(task_id: str):
-    return await get_task(task_id)
-#tasks_router.add_api_route('/tasks/{task_id}', endpoint=get_task, methods=['GET'])
-@tasks_router.get('/tasks', response_model=list[Task])
+@tasks_router.get('/tasks', response_model=list[TaskModel])
 async def read_tasks():
     return await get_tasks()
 
+
+@tasks_router.get('/tasks/{task_id}', response_model=TaskModel)
+async def read_task(task_id: str):
+    try:
+        return await get_task(task_id)
+    except HTTPException as exc:
+        return error_response(exc.detail, exc.status_code)
+
+
 # CRUD: Update (PUT)
-# tasks_router.add_api_route('/tasks/{task_id}', endpoint=update_task, methods=['PUT'])
-@tasks_router.put('/tasks/{task_id}', response_model=Task)
-async def update_task(task_id: str, task_data: Task):
-    return await update_task(task_id, task_data)
+@tasks_router.put('/tasks/{task_id}', response_model=TaskModel)
+async def update_task_endpoint(task_id: str, request: Request):
+    try:
+        payload = await request.json()
+    except Exception:
+        return error_response('Invalid JSON body', 400)
+
+    if not isinstance(payload, dict) or not payload:
+        return error_response('Request body must be a JSON object', 400)
+
+    try:
+        task = await update_task(task_id, payload)
+    except HTTPException as exc:
+        return error_response(exc.detail, exc.status_code)
+
+    return task
+
 
 # CRUD: Delete (DELETE)
-# tasks_router.add_api_route('/tasks/{task_id}', endpoint=delete_task, methods=['DELETE'])
-@tasks_router.delete('/tasks/{task_id}', response_model=Task)
-async def delete_task(task_id: str):
-    return await delete_task(task_id)
+@tasks_router.delete('/tasks/{task_id}', response_model=dict)
+async def delete_task_endpoint(task_id: str):
+    try:
+        return await delete_task(task_id)
+    except HTTPException as exc:
+        return error_response(exc.detail, exc.status_code)
+
 
 # Health check
-# tasks_router.add_api_route('/health', endpoint=health, methods=['GET'])
 @tasks_router.get('/health', response_model=dict)
 async def health_check():
     return await health()
