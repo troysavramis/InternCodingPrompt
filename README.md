@@ -83,6 +83,67 @@ INFO:     Application startup complete.
 
 
 
+## Testing API usage
+# Input
+```bash
+curl -X POST http://localhost:8000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Complete migration", "description": "Migrate Flask to FastAPI"}'
+curl -X POST http://localhost:8000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Another task", "description": "2nd example task"}'
+curl http://localhost:8000/tasks
+curl http://localhost:8000/tasks{37a8362f-9117-40ec-98ed-fdd56870df3c}
+curl -X PUT http://localhost:8000/tasks/{37a8362f-9117-40ec-98ed-fdd56870df3c} \
+  -H "Content-Type: application/json" \
+  -d '{"completed": true}'
+curl -X DELETE http://localhost:8000/tasks/{12b4f98c-f6cf-4c71-8718-d16ead4107f2}
+curl http://localhost:8000/tasks
+curl http://localhost:8000/health
+```
+
+# Output
+```bash
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$  source /c/Users/troys/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt/.venv/Scripts/activate
+(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl -X POST http://localhost:8000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Complete migration", "description": "Migrate Flask to FastAPI"}'
+{"id":"37a8362f-9117-40ec-98ed-fdd56870df3c","title":"Complete migration","description":"Migrate Flask to FastAPI","completed":false,"created_at":"2026-05-06T04:29:52.376517"}(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl -X POST http://localhost:8000/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Another task", "description": "2nd example task"}'
+{"id":"12b4f98c-f6cf-4c71-8718-d16ead4107f2","title":"Another task","description":"2nd example task","completed":false,"created_at":"2026-05-06T04:31:01.313474"}(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl http://localhost:8000/tasks
+[{"id":"37a8362f-9117-40ec-98ed-fdd56870df3c","title":"Complete migration","description":"Migrate Flask to FastAPI","completed":false,"created_at":"2026-05-06T04:29:52.376517","updated_at":null},{"id":"12b4f98c-f6cf-4c71-8718-d16ead4107f2","title":"Another task","description":"2nd example task","completed":false,"created_at":"2026-05-06T04:31:01.313474","updated_at":null}](intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl http://localhost:8000/tasks/{37a8362f-9117-40ec-98ed-fdd56870df3c}
+{"id":"37a8362f-9117-40ec-98ed-fdd56870df3c","title":"Complete migration","description":"Migrate Flask to FastAPI","completed":false,"created_at":"2026-05-06T04:29:52.376517","updated_at":null}(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl -X PUT http://localhost:8000/tasks/{37a8362f-9117-40ec-98ed-fdd56870df3c} \
+  -H "Content-Type: application/json" \
+  -d '{"completed": true}'
+{"id":"37a8362f-9117-40ec-98ed-fdd56870df3c","title":"Complete migration","description":"Migrate Flask to FastAPI","completed":true,"created_at":"2026-05-06T04:29:52.376517","updated_at":"2026-05-06T04:35:11.787605"}(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl -X DELETE http://localhost:8000/tasks/{12b4f98c-f6cf-4c71-8718-d16ead4107f2}
+{"message":"Task deleted successfully"}(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl http://localhost:8000/tasks
+[{"id":"37a8362f-9117-40ec-98ed-fdd56870df3c","title":"Complete migration","description":"Migrate Flask to FastAPI","completed":true,"created_at":"2026-05-06T04:29:52.376517","updated_at":"2026-05-06T04:35:11.787605"}](intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+$ curl http://localhost:8000/health
+{"status":"healthy"}(intern-coding-prompt) 
+troys@DESKTOP-R9TS14A MINGW64 ~/.Neo4jDesktop/projects/project-984028c9-d18d-4189-9331-1be369289efe/InternCodingPrompt (Cleanup-And-Polishing)
+```
+
+
+
+
+
 
 # Intern Coding Prompt: Flask to FastAPI Migration
 
@@ -193,26 +254,26 @@ After completing the migration, verify your implementation by:
 
 ```bash
 # Create a task
-curl -X POST http://localhost:5000/tasks \
+curl -X POST http://localhost:8000/tasks \
   -H "Content-Type: application/json" \
   -d '{"title": "Complete migration", "description": "Migrate Flask to FastAPI"}'
 
 # Get all tasks
-curl http://localhost:5000/tasks
+curl http://localhost:8000/tasks
 
 # Get a specific task
-curl http://localhost:5000/tasks/{task_id}
+curl http://localhost:8000/tasks/{task_id}
 
 # Update a task
-curl -X PUT http://localhost:5000/tasks/{task_id} \
+curl -X PUT http://localhost:8000/tasks/{task_id} \
   -H "Content-Type: application/json" \
   -d '{"completed": true}'
 
 # Delete a task
-curl -X DELETE http://localhost:5000/tasks/{task_id}
+curl -X DELETE http://localhost:8000/tasks/{task_id}
 
 # Health check
-curl http://localhost:5000/health
+curl http://localhost:8000/health
 ```
 
 ## Additional Considerations
