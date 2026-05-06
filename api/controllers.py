@@ -47,14 +47,17 @@ async def get_task(task_id):
 
 
 # CRUD: Create
-async def create_task(task_data: TaskCreate):
+async def create_task(task_data):
     """Create: Create a new task"""
-    task_id = str(uuid.uuid4())
+    if isinstance(task_data, dict):
+        task_data = TaskCreate(**task_data)
 
+    task_id = str(uuid.uuid4())
+    
     task = {
         "id": task_id,
         "title": task_data.title,
-        "description": task_data.description,
+        "description": task_data.description or "",
         "completed": False,
         "created_at": datetime.utcnow().isoformat(),
     }
@@ -64,22 +67,21 @@ async def create_task(task_data: TaskCreate):
 
 
 # CRUD: Update
-async def update_task(task_id, task_data: TaskUpdate):
+async def update_task(task_id, task_data):
     """Update: Update an existing task"""
-    task = tasks.get(task_id)
+    if isinstance(task_data, dict):
+        task_data = TaskUpdate(**task_data)
 
     if task_id not in tasks:
         raise HTTPException(status_code=404, detail="Task not found")
 
-    # Update task fields
+    task = tasks[task_id]
     if task_data.title is not None:
         task["title"] = task_data.title
     if task_data.description is not None:
         task["description"] = task_data.description
     if task_data.completed is not None:
         task["completed"] = task_data.completed
-    # TODO: There is a better way to implement using model_dump, consider using it here if it doesn't disrupt the rest of the project's structure
-    # TODO: Is it within the scope of this project?
 
     task["updated_at"] = datetime.utcnow().isoformat()
     tasks[task_id] = task
